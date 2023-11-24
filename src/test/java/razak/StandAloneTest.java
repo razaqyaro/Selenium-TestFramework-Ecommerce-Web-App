@@ -3,23 +3,46 @@ package razak;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StandAloneTest
 {
     private static String password = "razzy@gmail.comY$7";
     private static String email = "razzy@gmail.com";
     public static void main(String[] args) {
-        WebDriverManager.chromedriver().setup();
+        //WebDriverManager.chromedriver().setup();
+        System.setProperty("webdriver.chrome.driver", "C:\\browserDrivers\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         driver.get("https://rahulshettyacademy.com/client");
         driver.findElement(By.id("userEmail")).sendKeys(email);
         driver.findElement(By.id("userPassword")).sendKeys(password);
         driver.findElement(By.id("login")).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mb-3")));
+        List<WebElement> products = driver.findElements(By.cssSelector(".mb-3"));
+       WebElement foundProduct = products.stream().filter(product ->
+                product.findElement(By.cssSelector("b")).getText().equals("ZARA COAT 3"))
+                .findFirst().orElse(null);
+       foundProduct.findElement(By.cssSelector(".card button:last-of-type")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#ng-animating")));
+
+        // View cart
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[routerlink*='cart']")));
+        driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
+        System.out.println(driver.findElement(By.cssSelector("[routerlink*='cart']")).getText());
+
     }
 
 }
