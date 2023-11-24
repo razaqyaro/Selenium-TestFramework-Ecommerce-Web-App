@@ -1,6 +1,7 @@
 package razak;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import junit.framework.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,9 +17,11 @@ public class StandAloneTest
 {
     private static String password = "razzy@gmail.comY$7";
     private static String email = "razzy@gmail.com";
-    public static void main(String[] args) {
-        //WebDriverManager.chromedriver().setup();
-        System.setProperty("webdriver.chrome.driver", "C:\\browserDrivers\\chromedriver.exe");
+    public static void main(String[] args)
+    {
+        String productName = "ZARA COAT 3";
+        WebDriverManager.chromedriver().setup();
+//        System.setProperty("webdriver.chrome.driver", "C:\\browserDrivers\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
@@ -31,7 +34,7 @@ public class StandAloneTest
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mb-3")));
         List<WebElement> products = driver.findElements(By.cssSelector(".mb-3"));
        WebElement foundProduct = products.stream().filter(product ->
-                product.findElement(By.cssSelector("b")).getText().equals("ZARA COAT 3"))
+                product.findElement(By.cssSelector("b")).getText().equals(productName))
                 .findFirst().orElse(null);
        foundProduct.findElement(By.cssSelector(".card button:last-of-type")).click();
 
@@ -42,6 +45,12 @@ public class StandAloneTest
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[routerlink*='cart']")));
         driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
         System.out.println(driver.findElement(By.cssSelector("[routerlink*='cart']")).getText());
+
+        // Check if product in indeed in the cart
+       List<WebElement> cartProducts =  driver.findElements(By.cssSelector(".cartSection h3"));
+       Boolean match = cartProducts.stream().anyMatch(cartProduct -> cartProduct.getText().equalsIgnoreCase(productName));
+       Assert.assertTrue(match);
+
 
     }
 
