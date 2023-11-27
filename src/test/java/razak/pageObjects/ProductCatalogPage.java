@@ -24,6 +24,8 @@ public class ProductCatalogPage extends AbstractComponent
     By productsBy = By.cssSelector(".mb-3");
     By ProductToAddToCartLocator = By.cssSelector(".card button:last-of-type");
     By toastMessageLocator = By.cssSelector("#toast-container");
+    @FindBy(css ="#ng-animating")
+    WebElement spinner ;
     public List<WebElement> getProductList()
     {
         waitForElementToAppear(productsBy);
@@ -43,6 +45,7 @@ public class ProductCatalogPage extends AbstractComponent
         WebElement product = getProductByName(productName);
         product.findElement(ProductToAddToCartLocator).click();
         waitForElementToAppear(toastMessageLocator);
+        waitForElementToDisappear(spinner);
 
     }
 }
