@@ -104,7 +104,7 @@ public class StandAloneWithPageObject extends BaseTest
     public String getScreenshot(String testCaseName) throws IOException {
         TakesScreenshot screenshot = (TakesScreenshot) driver;
         File source = screenshot.getScreenshotAs(OutputType.FILE);
-        File file = new File(System.getProperty("user.dir")+"//reports//"+ testCaseName +".png")
+        File file = new File(System.getProperty("user.dir")+"//reports//"+ testCaseName +".png");
         FileUtils.copyFile(source,file );
         return System.getProperty("user.dir")+"//reports//"+ testCaseName +".png";
     }
