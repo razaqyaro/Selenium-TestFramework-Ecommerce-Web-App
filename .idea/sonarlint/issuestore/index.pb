@@ -1,6 +1,4 @@
 
-P
- src/test/java/razak/AppTest.java,c\b\cbeff2f6e13c1d7567ff2d16f5b3a8c7f6e11b9e
 L
 src/main/java/razak/App.java,d\e\de030e51023a90877b15779b0e58b04243694dae
 a
