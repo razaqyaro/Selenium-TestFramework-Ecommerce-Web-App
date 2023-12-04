@@ -1,5 +1,6 @@
 package razak.pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,6 +25,8 @@ public class LandingPage extends AbstractComponent
     @FindBy(id = "login")
     WebElement submit;
 
+    @FindBy(css = "[class*='flyInOut']")
+    WebElement errorMessage;
     public void goTo()
     {
         driver.get("https://rahulshettyacademy.com/client");
@@ -34,5 +37,11 @@ public class LandingPage extends AbstractComponent
         userEmail.sendKeys(email);
         userPassword.sendKeys(password);
         submit.click();
+    }
+
+    public String getErrorMessage()
+    {
+        waitForElementToAppear(errorMessage);
+        return errorMessage.getText();
     }
 }

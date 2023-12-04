@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite1" verbose="1" >
+    <test name="errorTest" >
+        <classes>
+            <class name="razak.ErrorValidations"/>
+        </classes>
+    </test>
+    <test name="pageObjectTest" >
+        <classes>
+            <class name="razak.StandAloneTest"/>
+        </classes>
+    </test>
+    <test name="standAloneTest">
+        <classes>
+            <class name="razak.StandAloneWithPageObject"/>
+        </classes>
+    </test>
+</suite>
