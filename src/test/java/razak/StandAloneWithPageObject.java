@@ -2,10 +2,15 @@ package razak;
 
 import TestComponents.BaseTest;
 import junit.framework.Assert;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import razak.pageObjects.*;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +39,7 @@ public class StandAloneWithPageObject extends BaseTest
         Assert.assertTrue(confirmationMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 
     }
-    @Test(dataProvider = "getCredentials")
+    @Test(dataProvider = "getDataFromJson")
     public void submitTest(HashMap<String, String> logInCredentials) throws IOException
     {
         landingPage.logInApplication(logInCredentials.get("email"),logInCredentials.get("password"));
@@ -88,6 +93,20 @@ public class StandAloneWithPageObject extends BaseTest
         map1.put("password", "Iamking@000");
         map1.put("product", "ADIDAS ORIGINAL");
         return  new Object[][]{{map}, {map1}};
+    }
+
+    @DataProvider
+    public Object[][] getDataFromJson() throws IOException {
+        List<HashMap<String, String>> data = getJsonDataToMap(System.getProperty("user.dir")+"\\src\\test\\java\\data\\PurchaseOrder.json");
+        return new Object[][] {{data.get(0)}, {data.get(1)}};
+    }
+
+    public String getScreenshot(String testCaseName) throws IOException {
+        TakesScreenshot screenshot = (TakesScreenshot) driver;
+        File source = screenshot.getScreenshotAs(OutputType.FILE);
+        File file = new File(System.getProperty("user.dir")+"//reports//"+ testCaseName +".png")
+        FileUtils.copyFile(source,file );
+        return System.getProperty("user.dir")+"//reports//"+ testCaseName +".png";
     }
 
 
