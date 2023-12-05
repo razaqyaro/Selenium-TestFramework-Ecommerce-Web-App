@@ -1,6 +1,7 @@
 package razak;
 
 import TestComponents.BaseTest;
+import TestComponents.Retry;
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -58,7 +59,7 @@ public class StandAloneWithPageObject extends BaseTest
         Assert.assertTrue(confirmationMessage.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
 
     }
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void submitOrder() throws IOException
     {
         landingPage.logInApplication(email2, password2);

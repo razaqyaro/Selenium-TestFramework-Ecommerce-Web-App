@@ -1,6 +1,5 @@
 package razak.pageObjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,11 +31,12 @@ public class LandingPage extends AbstractComponent
         driver.get("https://rahulshettyacademy.com/client");
     }
 
-    public void logInApplication(String email, String password)
+    public ProductCatalogPage logInApplication(String email, String password)
     {
         userEmail.sendKeys(email);
         userPassword.sendKeys(password);
         submit.click();
+        return new ProductCatalogPage(driver);
     }
 
     public String getErrorMessage()

@@ -34,8 +34,9 @@ public class CheckOutPage extends AbstractComponent
         waitForElementToAppear(countryLocator);
         selectCountry.click();
     }
-    public void submitOrder()
+    public ConfrimationPage submitOrder()
     {
         submit.click();
+        return new ConfrimationPage(driver);
     }
 }

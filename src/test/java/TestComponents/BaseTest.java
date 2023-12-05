@@ -4,10 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
+import org.checkerframework.checker.units.qual.C;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -31,16 +34,24 @@ public class BaseTest
         Properties prop = new Properties();
         FileInputStream fileInStream = new FileInputStream(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\GlobalData.properties");
         prop.load(fileInStream);
+        String browserName = prop.getProperty("browser");// != null ? System.getProperty("browser") : prop.getProperty("browser") ;
 
-        String browserName = prop.getProperty("browser");
-        if(browserName.equalsIgnoreCase("chrome"))
+
+        if(browserName.contains("chrome"))
         {
-            //System.setProperty("webdriver.chrome.driver", "C:\\browserDrivers\\chromedriver.exe");
-            driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+            System.setProperty("webdriver.chrome.driver", "C:\\browserDrivers\\chromedriver.exe");
+            if(browserName.contains("headless"))
+            {
+                options.addArguments("headless");
+            }
+
+            driver = new ChromeDriver(options);
+            driver.manage().window().setSize(new Dimension(1440, 900));
         }
         else if(browserName.equalsIgnoreCase("firefox"))
         {
-            WebDriverManager.firefoxdriver().setup();
+            System.setProperty("webdriver.chrome.driver", "C:\\browserDrivers\\geckodriver.exe");
             driver = new FirefoxDriver();
         }
         else {
